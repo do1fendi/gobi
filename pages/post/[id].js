@@ -11,15 +11,21 @@ import Image from "next/image";
 // export default Post;
 
 export const config = {
-  runtime: 'experimental-edge',
-}
+  runtime: "experimental-edge",
+};
 
 function Page({ data }) {
   // Render data...
   return (
     <>
       <p>Post: {JSON.stringify(data)}</p>
-      <Image src="/feature.jpg" alt="Vercel Logo" width={650} height={400} priority />
+      <Image
+        src="/feature.jpg"
+        alt="Vercel Logo"
+        width={650}
+        height={400}
+        priority
+      />
     </>
   );
 }
@@ -28,11 +34,14 @@ function Page({ data }) {
 export async function getServerSideProps(context) {
   // Fetch data from external API
   const { id } = context.query;
-  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
-  const data = await res.json();
+  try {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    const data = await res.json();
+    return { props: { data } };
+  } catch (error) {}
 
   // Pass data to the page via props
-  return { props: { data } };
+  return { props: { error } };
 }
 
 export default Page;
