@@ -10,6 +10,10 @@ import Image from "next/image";
 
 // export default Post;
 
+export const config = {
+  runtime: 'experimental-edge',
+}
+
 function Page({ data }) {
   // Render data...
   return (
